@@ -1,0 +1,96 @@
+import os
+import discord
+from discord.ext import commands
+import json
+from dotenv import load_dotenv
+
+load_dotenv()
+token = os.environ.get("token")
+
+activity = discord.Activity(type=discord.ActivityType.watching, name="the Inferno Squadron Server")
+client = commands.Bot(command_prefix='.',activity=activity)
+
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected to Discord!')
+    channel = client.get_channel(843208748096159744)
+    await channel.send('Ready to award some epic roles!')
+
+@client.event
+async def on_member_join(member):
+    with open('users.json', 'r') as f:
+        users = json.load(f)
+
+    await update_data(users, member)
+
+    with open('users.json', 'w') as f:
+        json.dump(users, f)
+
+@client.event
+async def on_message(message):
+    if message.author.bot == False:
+        with open('users.json', 'r') as f:
+            users = json.load(f)
+
+        await update_data(users, message.author)
+        await add_experience(users, message.author, 5)
+        await level_up(users, message.author, message)
+
+        with open('users.json', 'w') as f:
+            json.dump(users, f)
+
+    await client.process_commands(message)
+
+
+async def update_data(users, user):
+    if not f'{user.id}' in users:
+        users[f'{user.id}'] = {}
+        users[f'{user.id}']['experience'] = 0
+        users[f'{user.id}']['level'] = 1
+
+
+async def add_experience(users, user, exp):
+    users[f'{user.id}']['experience'] += exp
+
+
+async def level_up(users, user, message):
+    experience = users[f'{user.id}']['experience']
+    lvl_start = users[f'{user.id}']['level']
+    lvl_end = int(experience ** (1 / 4))
+    if lvl_start < lvl_end:
+        channel = client.get_channel(827687525920669717)
+        await channel.send(f'{user.mention} has leveled up to level {lvl_end}.')
+        users[f'{user.id}']['level'] = lvl_end
+
+        if (users[f'{message.author.id}']['level'] == 4):
+            var = discord.utils.get(message.guild.roles, name = "Corporal")
+            await user.add_roles(var)
+        if (users[f'{message.author.id}']['level'] == 6):
+            var = discord.utils.get(message.guild.roles, name = "Sergeant")
+            await user.add_roles(var)
+        if (users[f'{message.author.id}']['level'] == 8):
+            var = discord.utils.get(message.guild.roles, name = "Lieutenant")
+            await user.add_roles(var)
+        if (users[f'{message.author.id}']['level'] == 10):
+            var = discord.utils.get(message.guild.roles, name = "Major")
+            await user.add_roles(var)
+        if (users[f'{message.author.id}']['level'] == 15):
+            var = discord.utils.get(message.guild.roles, name = "Colonel")
+            await user.add_roles(var)
+
+@client.command(help='Checks your current level.')
+async def level(ctx, member: discord.Member = None):
+    if not member:
+        uid = ctx.message.author.id
+        with open('users.json', 'r') as f:
+            users = json.load(f)
+        lvl = users[str(uid)]['level']
+        await ctx.send(f'You are at level {lvl}!')
+    else:
+        uid = member.id
+        with open('users.json', 'r') as f:
+            users = json.load(f)
+        lvl = users[str(uid)]['level']
+        await ctx.send(f'{member} is at level {lvl}!')
+
+client.run(token)
