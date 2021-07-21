@@ -30,9 +30,11 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
+    split = message.content.split()
+    
     if message.author.bot == False:
         for w in bad_words:
-            if (w in message.content):
+            if (w in split):
                 log = client.get_channel(827689365429026816)
                 await log.send('Potentially offensive word caught. Blacklisted word: ' + w + '. Message from ' + message.author.mention + ': '+ message.content)
         
