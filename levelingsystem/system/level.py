@@ -10,6 +10,8 @@ token = os.environ.get("token")
 activity = discord.Activity(type=discord.ActivityType.watching, name="the Inferno Squadron Server")
 client = commands.Bot(command_prefix='.',activity=activity)
 
+bad_words = ['anal','anus','arse','ass','ballsack','balls','bastard','bitch','biatch','bloody','blowjob','blow job','bollock','bollok','boner','boob','bugger','bum','butt','buttplug','clitoris','cock','coon','crap','cunt','damn','dick','dildo','dyke','fag','feck','fellate','fellatio','felching','fuck','f u c k','fudgepacker','fudge packer','flange','Goddamn','God damn','hell','homo','jerk','jizz','knobend','knob end','labia','muff','nigger','nigga','penis','piss','poop','porn','p*rn', 'p0rn','prick','pube','pussy','queer','scrotum','sex','shit','s hit','sh1t','slut','smegma','spunk','tit','turd','twat','vagina','wank','whore']
+
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
@@ -29,6 +31,11 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
     if message.author.bot == False:
+        for w in bad_words:
+            if (w in message.content):
+                log = client.get_channel(827689365429026816)
+                await log.send('Potentially offensive word caught. Blacklisted word: ' + w + '. Message from ' + message.author.mention + ': '+ message.content)
+        
         with open('users.json', 'r') as f:
             users = json.load(f)
 

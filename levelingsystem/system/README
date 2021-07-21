@@ -1,3 +1,3 @@
-Hey! I wrote this simple Discord bot based on https://www.youtube.com/watch?v=pKkrCHnun0M (check it out!). I added roleassign funcationality, which is what we were going for, and here's likely the final version of the bot. Feel free to use all or part of it!
+Hey! I wrote this simple Discord bot based on https://www.youtube.com/watch?v=pKkrCHnun0M (check it out!). I added roleassign funcationality, which is what we were going for, and here's likely the final version of the bot. It also has a custom bad words blacklist. Feel free to use all or part of it!
 
-Important note: this bot requires a file named 'users.json' in the same folder. Create the file, open it and insert '{}' (without the quotes). This will persistently store member info.
+Important note: this bot requires a file named 'users.json' in the same folder. Create the file, open it and insert '{}' (without the quotes). This will persistently store member info. Also, create your .env file with your Discord token, and change channel ID's as appropriate.
