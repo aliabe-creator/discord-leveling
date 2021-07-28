@@ -91,7 +91,7 @@ async def level_up(users, user, message):
             if (users[f'{message.author.id}']['level'] >= 10 and days_in_server > 60):
                 var = discord.utils.get(message.guild.roles, name = "Major")
                 await user.add_roles(var)
-            if (users[f'{message.author.id}']['level'] >= 15 and days_in_server > 90):
+            if (users[f'{message.author.id}']['level'] >= 15 and days_in_server > 120):
                 var = discord.utils.get(message.guild.roles, name = "Colonel")
                 await user.add_roles(var)
 
