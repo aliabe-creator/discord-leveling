@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import json
 from dotenv import load_dotenv
+import datetime
 
 load_dotenv()
 token = os.environ.get("token")
@@ -71,21 +72,28 @@ async def level_up(users, user, message):
         await channel.send(f'{user.mention} has leveled up to level {lvl_end}.')
         users[f'{user.id}']['level'] = lvl_end
 
-        if (users[f'{message.author.id}']['level'] == 4):
-            var = discord.utils.get(message.guild.roles, name = "Corporal")
-            await user.add_roles(var)
-        if (users[f'{message.author.id}']['level'] == 6):
-            var = discord.utils.get(message.guild.roles, name = "Sergeant")
-            await user.add_roles(var)
-        if (users[f'{message.author.id}']['level'] == 8):
-            var = discord.utils.get(message.guild.roles, name = "Lieutenant")
-            await user.add_roles(var)
-        if (users[f'{message.author.id}']['level'] == 10):
-            var = discord.utils.get(message.guild.roles, name = "Major")
-            await user.add_roles(var)
-        if (users[f'{message.author.id}']['level'] == 15):
-            var = discord.utils.get(message.guild.roles, name = "Colonel")
-            await user.add_roles(var)
+        roles = str(message.author.roles) #get roles
+        now = datetime.datetime.now()
+        joined_date = message.author.joined_at
+        
+        days_in_server = (now - joined_date).days #get days in server
+        
+        if '827702967057645568' in roles or '845099404821528586' in roles: #checks if they are at least Class B
+            if (users[f'{message.author.id}']['level'] >= 4 and days_in_server > 7):
+                var = discord.utils.get(message.guild.roles, name = "Corporal")
+                await user.add_roles(var)
+            if (users[f'{message.author.id}']['level'] >= 6 and days_in_server > 14):
+                var = discord.utils.get(message.guild.roles, name = "Sergeant")
+                await user.add_roles(var)
+            if (users[f'{message.author.id}']['level'] >= 8 and days_in_server > 30):
+                var = discord.utils.get(message.guild.roles, name = "Lieutenant")
+                await user.add_roles(var)
+            if (users[f'{message.author.id}']['level'] >= 10 and days_in_server > 60):
+                var = discord.utils.get(message.guild.roles, name = "Major")
+                await user.add_roles(var)
+            if (users[f'{message.author.id}']['level'] >= 15 and days_in_server > 90):
+                var = discord.utils.get(message.guild.roles, name = "Colonel")
+                await user.add_roles(var)
 
 @client.command(help='Checks your current level.')
 async def level(ctx, member: discord.Member = None):
