@@ -80,19 +80,19 @@ async def level_up(users, user, message):
         
         if '827702967057645568' in roles or '845099404821528586' in roles: #checks if they are at least Class B
             if (users[f'{message.author.id}']['level'] >= 4 and days_in_server > 7):
-                var = discord.utils.get(message.guild.roles, name = "🗡️ Warrior 🗡️")
+                var = discord.utils.get(message.guild.roles, name = "Warrior")
                 await user.add_roles(var)
             if (users[f'{message.author.id}']['level'] >= 6 and days_in_server > 14):
-                var = discord.utils.get(message.guild.roles, name = "⚔️ Knight ⚔️")
+                var = discord.utils.get(message.guild.roles, name = "Knight")
                 await user.add_roles(var)
             if (users[f'{message.author.id}']['level'] >= 8 and days_in_server > 30):
-                var = discord.utils.get(message.guild.roles, name = "🛡️ Brevet 🛡️")
+                var = discord.utils.get(message.guild.roles, name = "Brevet")
                 await user.add_roles(var)
             if (users[f'{message.author.id}']['level'] >= 10 and days_in_server > 60):
-                var = discord.utils.get(message.guild.roles, name = "💥 Lord 💥")
+                var = discord.utils.get(message.guild.roles, name = "Lord")
                 await user.add_roles(var)
             if (users[f'{message.author.id}']['level'] >= 15 and days_in_server > 120):
-                var = discord.utils.get(message.guild.roles, name = "🥋 Master 🥋")
+                var = discord.utils.get(message.guild.roles, name = "Master")
                 await user.add_roles(var)
 
 @client.command(help='Checks your current level.')
